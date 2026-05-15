@@ -2,7 +2,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: overdraft-manager
-  description: Gerenciador de cheque especial #
+  description: "Gerenciador de limites de cheque especial e controle de saldo negativo"
 spec:
   type: service
   lifecycle: production
