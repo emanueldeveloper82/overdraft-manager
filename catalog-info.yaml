@@ -3,6 +3,8 @@ kind: Component
 metadata:
   name: overdraft-manager
   description: "Gerenciador de limites de cheque especial e controle de saldo negativo"
+  annotations:
+    backstage.io/api-docs-ref: file: ./openapi.yaml
 spec:
   type: service
   lifecycle: production
