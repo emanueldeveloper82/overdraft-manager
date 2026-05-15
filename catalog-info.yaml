@@ -3,10 +3,25 @@ kind: Component
 metadata:
   name: overdraft-manager
   description: "Gerenciador de limites de cheque especial e controle de saldo negativo"
-  annotations:
-    backstage.io/api-docs-ref: file: ./openapi.yaml
 spec:
   type: service
   lifecycle: production
   owner: group:conta-corrente
+  domain: financeiro
   system: system:banking-system
+  providesApis:
+    - overdraft-manager-api
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: overdraft-manager-api
+  description: "Especificação OpenAPI do Overdraft Manager"
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:conta-corrente
+  system: system:banking-system
+  definition:
+    $text: ./openapi.yaml
