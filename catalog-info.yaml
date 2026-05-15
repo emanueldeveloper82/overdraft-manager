@@ -6,5 +6,5 @@ metadata:
 spec:
   type: service
   lifecycle: production
-  owner: conta-corrente #
-  system: banking-system
+  owner: group:conta-corrente
+  system: system:banking-system
