@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  title: Overdraft Manager API
+  description: Gerenciamento de limites de cheque especial e saldo negativo
+  version: 1.0.0
+  contact:
+    name: Equipe Conta Corrente
+    email: conta-corrente@zetra-bank.com
+
+servers:
+  - url: https://api.zetra-bank.com/overdraft
+    description: Production
+
+paths:
+  /overdraft/{accountId}:
+    get:
+      summary: Consultar limite de cheque especial
+      operationId: getOverdraftLimit
+      tags:
+        - Overdraft
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Limite de cheque especial
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountId:
+                    type: string
+                  overdraftLimit:
+                    type: number
+                  usedOverdraft:
+                    type: number
+                  availableOverdraft:
+                    type: number
+                  dailyRate:
+                    type: number
+                  status:
+                    type: string
+                    enum: [ACTIVE, INACTIVE, BLOCKED]
+
+    put:
+      summary: Atualizar limite de cheque especial
+      operationId: updateOverdraftLimit
+      tags:
+        - Overdraft
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newLimit:
+                  type: number
+                reason:
+                  type: string
+      responses:
+        '200':
+          description: Limite atualizado com sucesso
+
+  /overdraft/{accountId}/request:
+    post:
+      summary: Solicitar cheque especial
+      operationId: requestOverdraft
+      tags:
+        - Overdraft
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                requestedAmount:
+                  type: number
+                reason:
+                  type: string
+      responses:
+        '201':
+          description: Solicitação criada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  status:
+                    type: string
+                    enum: [PENDING, APPROVED, REJECTED]
+
+  /overdraft/{accountId}/usage:
+    get:
+      summary: Consultar uso do cheque especial
+      operationId: getOverdraftUsage
+      tags:
+        - Overdraft
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: days:
+          in: query
+          schema:
+            type: integer
+            default: 30
+      responses:
+        '200':
+          description: Detalhes de uso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                    usedOverdraft:
+                      type: number
+                    dailyInterest:
+                      type: number
