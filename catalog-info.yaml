@@ -2,13 +2,9 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: overdraft-manager
-  description: "Gerenciador de limite de cheque especial e análise de risco"
-  annotations:
-    github.com/project-slug: emanueldeveloper82/overdraft-manager
+  description: Gerenciador de cheque especial #
 spec:
   type: service
   lifecycle: production
-  # CONEXÃO: Vinculado ao time de conta corrente
-  owner: group:conta-corrente
-  # CONEXÃO: Vinculado ao domínio financeiro
-  domain: financeiro
+  owner: conta-corrente #
+  system: banking-system
